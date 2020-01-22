@@ -1,0 +1,46 @@
+/* Code by Sam Kingston, 3173258
+January 22, 2020
+A Basic circuit controling 3 LEDs, each turning on at a different level of brighness taken from a Photocell.
+*/
+
+
+
+void setup() {
+  // initialize serial communication at 9600 bits per second:
+  Serial.begin(9600);
+  pinMode(13, OUTPUT);
+}
+
+void loop() {
+
+  // READ A0 FOR LIGHT SENSOR VALUES
+  int sensorValue = analogRead(A0);
+  
+  // PRINT TO SERIAL MONITOR FOR ANALYSIS
+  Serial.println(sensorValue);
+
+  delay(100);
+
+//THREE IF STATEMENTS FOR EACH LEVEL OF BRIGHTNESS REAED BY THE SENSOR, I FOUND THE LOWEST VALUE WAS AROUND 730 AND HIGHEST WAS 1003 SO USED THOSE AS BENCHMARKS.
+
+//IF GREATER OR EQUAL TO 900, SEND POWER TO PIN 13
+  if (sensorValue >= 900) {
+    digitalWrite(13, HIGH);
+    digitalWrite(12, LOW);
+    digitalWrite(8, LOW);
+  }
+  //IF LESS THAN OR EQUAL TO 750, SEND POWER TO PIN 12
+  else if (sensorValue <= 750) {
+    digitalWrite(13, LOW);
+    digitalWrite(12, HIGH);
+    digitalWrite(8, LOW);
+  }
+  //IF NEITHER OF THOSE STATEMENTS ARE TRUE, SEND POWER TO PIN 8. THIS SENDS POWER IF YOU ARE HIGHER THAN 750 BUT LOWER THAN 900.
+
+  else {
+    digitalWrite(13, LOW);          //shut the red LED off/keep it off
+    digitalWrite(12, LOW);         //turn on the yellow LED
+    digitalWrite(8, HIGH);
+  }
+
+}
